@@ -22,8 +22,8 @@ A starter project for building your own LLM agent framework with streaming, func
 2. Copy `.env_sample` to `.env` and fill in your API keys
 3. Create a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use: venv\Scripts\activate
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows use: venv\Scripts\activate
    ```
 4. Install dependencies:
    ```bash
@@ -31,7 +31,7 @@ A starter project for building your own LLM agent framework with streaming, func
    ```
 5. Run the application:
    ```bash
-   chainlit run app.py
+   chainlit run app.py -w
    ```
 
 ## Key Features of BaseAgent
