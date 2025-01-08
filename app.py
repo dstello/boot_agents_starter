@@ -1,8 +1,11 @@
 from dotenv import load_dotenv
 import chainlit as cl
 import litellm
+
 from agents.planning_agent import PlanningAgent
-from agents.movie_agent import MovieAgent
+from agents.implementation_agent import ImplementationAgent
+from agents.supervisor_agent import SupervisorAgent
+
 from langsmith import traceable
 from typing import AsyncGenerator
 import base64
@@ -53,7 +56,7 @@ def on_chat_start():
         "max_tokens": 8192
     }
 
-    agent = MovieAgent(
+    agent = SupervisorAgent(
         litellm_model=MODEL_ANTHROPIC_CLAUDE,
         model_kwargs=model_kwargs
     )

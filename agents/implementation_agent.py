@@ -3,6 +3,7 @@ from .agent_factory import AgentFactory
 
 IMPLEMENTATION_PROMPT = """
 You are a skilled frontend developer specializing in HTML and CSS implementation.
+Implement code based on the plan laid out in the provided plan and mock up artifacts. Save your work in the appropriate files as an artifact.
 
 You have access to the following functions:
 
@@ -43,6 +44,8 @@ To use any function, generate a function call in JSON format, wrapped in \
 When making a function call, output ONLY the thought process and function call, \
 then stop. Do not provide any additional information until you receive the function \
 response.
+
+When you are done, and the implementation is saved in the appropriate files, return with a <delegate_agent_result> tag containing the message: "The implementation is complete."
 """
 
 class ImplementationAgent(BaseAgent):
@@ -63,6 +66,8 @@ class ImplementationAgent(BaseAgent):
             litellm_model: Model identifier for litellm
             model_kwargs: Optional generation parameters
         """
+        
+        print(f"ImplementationAgent initialized with model: {litellm_model}")
         super().__init__(
             name=name,
             system_prompt=IMPLEMENTATION_PROMPT,

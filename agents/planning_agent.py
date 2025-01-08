@@ -7,7 +7,7 @@ cannot see the original image at all. Imagine you are describing it to a blind d
 to implement it exactly. Your description must be methodical, sequential, and precise enough that 
 they can recreate the page without ever seeing the source material.
 
-YOU MUST FOLLOW THIS EXACT STRUCTURE IN YOUR RESPONSE:
+YOU MUST FOLLOW THIS STRUCTURE IN YOUR RESPONSE:
 
 <thought_process>
    Begin by recapping these guidelines and the required sections:
@@ -24,13 +24,11 @@ YOU MUST FOLLOW THIS EXACT STRUCTURE IN YOUR RESPONSE:
 </thought_process>
 
 <draft>
-   Create your initial description of the webpage in markdown format, sent as JSON string, following all the requirements below. 
+   Create your initial description of the webpage in markdown format, following all the requirements below. 
    YOU MUST WRITE A COMPLETE DRAFT. Do not use phrases like "more specifications to follow" 
    or "details will be added later". Every section of the webpage must be fully described 
    with all measurements, colors, spacing, and responsive behaviors in this first draft.
    Incomplete drafts are not acceptable.
-
-   The draft will be sent as a JSON string, so format it accordingly.
 </draft>
 
 <review>
@@ -67,15 +65,16 @@ YOU MUST FOLLOW THIS EXACT STRUCTURE IN YOUR RESPONSE:
    You must explicitly reference parts of your draft and provide specific improvements needed.
 </review>
 
-Based on your review, create the final, polished plan in markdown format as a JSON string incorporating 
+Based on your review, create the final, polished plan in markdown format incorporating 
 ALL the improvements you identified in the review section. The final plan should include ALL the content in the draft
-with the revisions that the review section recommended. Incomplete plans are not accceptable.
-This is what will be saved as plan.md. When calling the updateArtifact function, make sure the contents are formatted
-as a JSON string.
+with the revisions that the review section recommended. Incomplete plans are not acceptable.
+This is what will be saved as plan.md. 
+
+When calling the updateArtifact function, make sure the contents are formatted as a JSON string.
 
 The user will NOT have access to the draft, so everything must be copied to the final plan.
 
-Once the plan is saved, tell the user, "The plan has been saved as plan.md. You can now review it."
+Using the updateArtifact function save the plan as plan.md, and notify the user: "The plan has been saved as plan.md."
 
 DO NOT SKIP ANY OF THESE SECTIONS. Each section is mandatory and must be clearly marked with
 the section tags (e.g., <thought_process>, <draft>, <review>).
@@ -149,6 +148,9 @@ the section tags (e.g., <thought_process>, <draft>, <review>).
 
 ## Example description of a section
 
+Here is an example description of a hero section, use this as a reference when writing your own.
+
+<example_description>
 Hero Section Layout Specifications
 
 1. Container
@@ -210,6 +212,8 @@ Hero Section Layout Specifications
          * Box-shadow: 0 20px 40px rgba(0,0,0,0.2)
          * Screen shows Sleep Stories interface with purple background
 
+</example_description>
+
 For images, use placeholder service:
 https://picsum.photos/{width}/{height}
 Example: https://picsum.photos/200/300 generates a 200x300px random image
@@ -218,7 +222,9 @@ Example: https://picsum.photos/200/300 generates a 200x300px random image
 
 Break up the build process into manageable milestones, each with a clear goal, implementation, 
 and visual exit criteria. Choose the build order to maximize the probability that the final 
-implementation is similar to the original. 
+implementation is similar to the original. This is being built by another AI agent, so break 
+the build process into small, manageable milestones, optimizing for the probability that the 
+final implementation is similar to the original.
 
 When creating structural or layout milestones, you MUST include temporary visual debugging aids 
 (like colored borders, backgrounds, or outlines) that make the structure visible and verifiable.
@@ -241,6 +247,8 @@ Visual Exit Criteria must be:
 - Focus on visual relationships between elements
 - Include temporary debug styles for layout/structure milestones
 
+Here is an example milestone:
+<example_milestone>
 Example Milestone:
 - [ ] Hero Section
    Goal: Complete hero section with gradient and devices
@@ -258,13 +266,13 @@ Example Milestone:
    - [ ] Icons colored and positioned
    - [ ] Hover animations smooth
    - [ ] Responsive grid changes
-
+</example_milestone>
 You have access to the following functions:
 
 <available_functions>
 {
   "updateArtifact": {
-    "description": "Update an artifact file which is HTML, CSS, or markdown with the given contents.",
+    "description": "Update an artifact file which is HTML, CSS, or markdown (md) with the given contents.",
     "parameters": {
       "type": "object",
       "properties": {
@@ -274,7 +282,7 @@ You have access to the following functions:
         },
         "contents": {
           "type": "string",
-          "description": "The markdown, HTML, or CSS contents to write to the file."
+          "description": "The markdown (md), HTML, or CSS contents to write to the file."
         }
       },
       "required": ["filename", "contents"]
@@ -285,6 +293,7 @@ You have access to the following functions:
 
 To use any function, generate a function call in JSON format, wrapped in \
 <function_call> tags. For example:
+
 <function_call>
 {
   "name": "updateArtifact",
@@ -297,7 +306,7 @@ To use any function, generate a function call in JSON format, wrapped in \
 
 When making a function call, output ONLY the thought process and function call, \
 then stop. Do not provide any additional information until you receive the function \
-response.
+response. Once the plan is complete and saved in plan.md, return with a <delegate_agent_result> tag containing the message: "The plan has been saved as plan.md."
 """
 
 class PlanningAgent(BaseAgent):

@@ -6,6 +6,7 @@ import json
 import os
 import base64
 import io
+from PIL import Image
 
 class BaseAgent:
     def __init__(
@@ -497,4 +498,3 @@ class BaseAgent:
         except Exception as e:
             print(f"Warning: Failed to read artifacts directory: {str(e)}")
             return ""
-
